@@ -66,7 +66,7 @@ files-touched:
 - changed diagnostician/identity.md — one line: its closing pointer double-attributed the
   report's shape to both rules.md and reference/
 
-decisions: the full list with justifications is in the handover (57 numbered rules). The ones
+decisions: the full list with justifications is in the handover (58 numbered rules). The ones
 that shaped everything else:
 
 - Read parse.py in full before writing any rule. The rules had to speak the manifest's own
