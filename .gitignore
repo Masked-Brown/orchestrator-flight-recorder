@@ -1,13 +1,35 @@
-# Raw conversation export: never committed
-data-*/
+# ---------------------------------------------------------------------------
+# The raw conversation export: NEVER committed.
+#
+# This repo is public. The export is the most sensitive file involved — every
+# conversation, in full. Only windowed, human-swept excerpts ever ship, and they
+# ship inside runs/.
+#
+# Before any commit: run `git status` and confirm none of these appear.
+# ---------------------------------------------------------------------------
+
+# the export archive, however it arrives
 *.zip
+data-*/
+
+# the unzipped export files
 conversations.json
 users.json
 projects.json
-memories*.json
-ofr-scout/
 projects/
+memories*.json
 login_history.json
-conversations.json
-users.json
-touchdowns/nothing        # placeholder line, ignore this, see step 2
+
+# anything parse.py writes locally: manifests hold raw conversation text
+out/
+
+# scratch space from earlier work
+ofr-scout/
+
+# ---------------------------------------------------------------------------
+# Ordinary Python noise
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
