@@ -4,11 +4,9 @@ Drop this folder into a Claude project. Claude becomes an air accident investiga
 working sessions: you show it a session that went wrong, and it tells you **why**, anchored to
 what was actually said, and then stops.
 
-> **Not finished yet.** `identity.md`, `rules.md` and everything in `reference/` are written,
-> so the investigator has what it needs to work. What is missing is worked examples:
-> `examples.md` does not exist yet, and the failure-mode files each end with a placeholder
-> where a real case will go. Both are filled from actual investigations rather than invented,
-> which is why they are last.
+This folder is complete and self-contained. Nothing in it depends on a file outside it, so
+dropping it into a project is the whole installation. Where it mentions the wider project — the
+parser, the gate, the shipped runs — those are useful, not required.
 
 ## What you give it
 
@@ -70,10 +68,10 @@ settled it.
 |---|---|
 | `identity.md` | Who the investigator is and the discipline it works to |
 | `rules.md` | How it works: standard of evidence, cause vs symptom, when to stop |
-| `reference/failure-modes/` | The eight named ways these sessions fail, one file each |
+| `reference/failure-modes/` | The nine named ways these sessions fail, one file each |
 | `reference/report-schema.md` | The seven sections, the citation format, and a template |
 | `reference/verdict-classes.md` | The five verdicts and what the record must show for each |
-| `examples.md` | Real investigations, start to finish — *not written yet* |
+| `examples.md` | Three real investigations, worked through — including where they went wrong |
 
 ## A note on the recording
 

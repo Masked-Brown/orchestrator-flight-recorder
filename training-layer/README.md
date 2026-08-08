@@ -22,6 +22,14 @@ One entry in it exists because an investigation *missed* something the answer ke
 is the loop working: the profile is written after the grading, not after the report, so what the
 investigation failed to see is exactly what the next one is told to look for.
 
+## The honest limit
+
+The rows are real and every one names the runs it came from. The **write step is manual**: a
+person writes the profile after grading a run against whatever the run could not see. Nothing in
+this repository updates this folder automatically, and there is no code path from a report to a
+profile. It is an accretion layer that accreted, not a mechanism that accretes. Recorded as
+defect 7 in [`../OPEN-DEFECTS.md`](../OPEN-DEFECTS.md).
+
 ## The one rule
 
 A profile says **where to look first**. It can never supply a finding. Nothing in it is anchored

@@ -97,4 +97,11 @@ tooling misbehaved.
 
 ---
 
-*Example: none yet. Worked examples are added from real investigations.*
+*Example: REAL. An eleven-item work order was committed to in one message and fired, and it ran
+for 2h 14m 54s. Every item was delivered and none was disputed — the objection was to the price
+of the agreed list, which is what separates this from `scope-injection`. No figure for the order
+as a whole appears anywhere in the window, on any channel; the one cost figure present covered
+the first item alone and stood where a total would. A measured run time for a comparable job sat
+in an attachment one message earlier, so the estimate was obtainable and nobody made it.
+Verdict: `mechanical`. Worked through in full in `../../examples.md`, example 2. This mode was
+written by that investigation, which found none of the existing eight fitted.*

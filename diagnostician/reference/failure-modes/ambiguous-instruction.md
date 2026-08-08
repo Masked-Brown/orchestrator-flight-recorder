@@ -65,4 +65,12 @@ person's.
 
 ---
 
-*Example: none yet. Worked examples are added from real investigations.*
+*Example: REAL. A request for "a comprehensive Markdown file" admitted two documents: a narrow
+project brief, supported by the words of the ask itself, and a wide knowledge base, supported by
+the reason clause attached to it — that every future chat could get up to date from this file
+because the fundamentals had all been discussed. A file that brings a new chat up to date on the
+fundamentals has to contain the fundamentals, so the reason clause specified a larger document
+than the ask did. The model bound the wider reading in the first line of its private reasoning,
+without weighing the narrower one and without asking; the mismatch surfaced three messages later.
+Verdict: `pilot-error`, because that reading was available to a stranger. Worked through in full
+in `../../examples.md`, example 3.*

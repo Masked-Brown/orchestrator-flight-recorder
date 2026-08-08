@@ -415,4 +415,5 @@ place it usually does.
 
 *The report's exact shape and citation syntax: `reference/report-schema.md`. The five verdicts
 and what each requires: `reference/verdict-classes.md`. The named mechanisms:
-`reference/failure-modes/`.*
+`reference/failure-modes/`. Three real investigations, worked through — including where each of
+them came off worse: `examples.md`.*

@@ -17,6 +17,11 @@ And one completeness assertion: every check `check.py` can report must have at l
 negative fixture behind it. Without that, a check could be added, never be exercised, and
 quietly do nothing.
 
+Then the command line itself, which is the same argument one level down. Every one of the
+checks above is worth nothing if the gate can be invoked in a way that examines nothing and
+still exits 0, because 0 is the only thing a CI step or a shell script reads. So every
+invocation that cannot actually check a report has to exit 2 and must never print PASS.
+
 The manifests are built by running parse.py over a committed synthetic export, so the
 tests exercise the real parser-to-gate path and cannot drift from what parse.py actually
 emits. Nothing here touches a real conversation export; CI has none.
@@ -73,6 +78,35 @@ NEGATIVE = [
     ("no-heading-block.md", "conv0", "heading-block"),
     ("origin-not-quoted.md", "conv0", "section-quote-required"),
     ("undetermined-no-resolution.md", "conv1", "undetermined-resolution"),
+]
+
+# Invocations that cannot check anything. Each must exit 2 — "the gate could not run" —
+# and none may print PASS. The dangerous one is `--list-checks` alongside a report: it
+# reads neither file, so before it was refused it exited 0, which is the same 0 a clean
+# report produces. A gate that can be made to say yes without looking is not a gate.
+#
+# (description, argv builder taking (report, manifest, workdir))
+CLI_REFUSALS = [
+    ("a report with no --manifest",
+     lambda report, manifest, work: [report]),
+    ("no arguments at all",
+     lambda report, manifest, work: []),
+    ("--manifest with no report",
+     lambda report, manifest, work: ["--manifest", manifest]),
+    ("--list-checks alongside a report",
+     lambda report, manifest, work: [report, "--list-checks"]),
+    ("--list-checks alongside a manifest",
+     lambda report, manifest, work: ["--list-checks", "--manifest", manifest]),
+    ("a --manifest that does not exist",
+     lambda report, manifest, work: [report, "--manifest",
+                                     os.path.join(work, "no-such-manifest.json")]),
+    ("a --manifest that is valid JSON but not a manifest",
+     lambda report, manifest, work: [report, "--manifest",
+                                     os.path.join(HERE, "fixtures",
+                                                  "test-sweep-rules.json")]),
+    ("a report that does not exist",
+     lambda report, manifest, work: [os.path.join(work, "no-such-report.md"),
+                                     "--manifest", manifest]),
 ]
 
 
@@ -191,6 +225,29 @@ def main():
         if not uncovered and not stray:
             print("  pass  %d/%d checks have a negative fixture"
                   % (len(declared), len(declared)))
+
+        print("\nThe command line — an invocation that checks nothing must not exit 0")
+        cli_ok = 0
+        report = os.path.join(HERE, "cases", CLEAN[0][0])
+        manifest = manifests[CLEAN[0][1]]
+        for description, build_argv in CLI_REFUSALS:
+            argv = build_argv(report, manifest, workdir)
+            code, out, err = run([CHECK] + argv)
+            said_pass = "PASS" in out
+            if code == 2 and not said_pass:
+                cli_ok += 1
+                print("  pass  %-46s refused, exit 2" % description)
+            elif said_pass:
+                print("  FAIL  %-46s printed PASS having checked nothing"
+                      % description)
+                failures.append("check.py passes on: %s" % description)
+            else:
+                print("  FAIL  %-46s exit %d, expected 2 — %s"
+                      % (description, code, (err or out).strip().splitlines()[0]
+                         if (err or out).strip() else "no message"))
+                failures.append("check.py does not refuse: %s" % description)
+        print("  %d/%d invocations that check nothing were refused\n"
+              % (cli_ok, len(CLI_REFUSALS)))
     finally:
         shutil.rmtree(workdir, ignore_errors=True)
 
@@ -201,8 +258,8 @@ def main():
             print("  - %s" % line)
         return 1
     print("CONTRACT HOLDS  %d clean reports pass, %d broken reports rejected on their "
-          "named check, %d checks covered."
-          % (len(CLEAN), len(NEGATIVE), len(known_checks())))
+          "named check, %d checks covered, %d invocations that check nothing refused."
+          % (len(CLEAN), len(NEGATIVE), len(known_checks()), len(CLI_REFUSALS)))
     return 0
 
 

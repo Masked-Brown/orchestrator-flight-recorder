@@ -31,7 +31,7 @@ No packages to install, and nothing here touches a real conversation export.
 
 ## The gate's contract
 
-Three things are asserted, and the second is the one that matters.
+Four things are asserted, and the second is the one that matters.
 
 **One — every clean report passes.** Three of them: a `pilot-error` finding with ranked
 contributing factors, an `undetermined` finding on a record too thin to settle, and an
@@ -49,6 +49,15 @@ check that mutation should trip. That is what makes this evidence rather than de
 **Three — every check has a fixture behind it.** `verify.py` asks `check.py` what checks it
 can report and fails if any of them has no negative fixture. Without this a check could be
 added, never exercised, and quietly do nothing while looking like enforcement.
+
+**Four — an invocation that checks nothing must not exit 0.** All of the above is worth
+nothing if the gate can be run in a way that reads neither the report nor a record and
+still returns success, because the exit code is the only thing a CI step or a shell script
+reads. Eight such invocations are asserted to exit 2 and to never print `PASS`: a report
+with no `--manifest`, no arguments, a manifest with no report, a manifest that does not
+exist, a JSON file that is not a manifest, a report that does not exist, and `--list-checks`
+handed a report or a manifest. That last pair is the one this was written for — see
+`OPEN-DEFECTS.md`.
 
 ## The parser's contract
 

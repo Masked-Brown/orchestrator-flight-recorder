@@ -100,3 +100,23 @@ The evidence that it was, stated so a reader can check it rather than take it:
 
 The last one is the strongest. The clearest evidence a run was blind is usually the thing it
 failed to know.
+
+## One thing about the record this grading was done against
+
+**The manifest in this folder was swept after the investigation, not before it.** The pre-commit
+check found that the window carried a personal name and a real channel identifier — categories
+the intake's sensitivity check had not been built to look for — on a repository that is public
+under a pseudonymous account. Two rules, three replacements, applied by `parse.py --redact` and
+the manifest regenerated. This was reviewed and **accepted by the human** at the final read, and
+kept.
+
+It matters here because it is the one respect in which this run is weaker than run 2, whose sweep
+ran *before* its investigation, so that one record served the investigator, the gate and the repo.
+Here the investigator read the unswept text and the folder ships the swept text.
+
+What that costs this grading, stated so a reader can weigh it: the divergence is three strings
+wide, none of them is quoted in [`report.md`](report.md) or named in its reasoning, none of them
+appears anywhere in [`answer-key.md`](answer-key.md), and `check.py` re-run against the swept
+manifest still verifies all eleven quotations. So nothing above rests on what was removed. The
+property is still weaker than run 2's, and [`run-notes.md`](run-notes.md) records the exact
+command that reverses it.

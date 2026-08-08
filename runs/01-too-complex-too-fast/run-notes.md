@@ -58,9 +58,9 @@ replacements:
       --out runs/01-too-complex-too-fast/message-manifest.md
 
 This is stricter than the intake's ruling rather than looser, which is the safe direction for a
-sensitivity call made without the human in the room. It is flagged in the M4 handover for the
-human's final read, and it is reversible: deleting the rules file and re-running the original
-command restores the unswept manifest exactly.
+sensitivity call made without the human in the room. It was flagged in the M4 handover for the
+human's final read and **accepted there**, so it stands. It remains reversible: deleting the
+rules file and re-running the original command restores the unswept manifest exactly.
 
 **What it costs, stated plainly.** Run 2's sweep has a property this one does not: it ran *before*
 the investigation, so the record the investigator read, the record the gate matched against, and

@@ -911,11 +911,24 @@ def main(argv=None):
     parser.add_argument("--json", action="store_true",
                         help="emit the result as JSON instead of prose")
     parser.add_argument("--list-checks", action="store_true",
-                        help="print every check this gate can report, and exit")
+                        help="print every check this gate can report, and exit. "
+                             "Cannot be combined with a report.")
     args = parser.parse_args(argv)
     use_utf8_streams()
 
+    # `--list-checks` prints the catalogue and checks nothing. On its own that is a
+    # useful query. Handed a report as well, it is a trap: the gate exits 0 having read
+    # neither the report nor a record, and anything reading the exit code — a CI step, a
+    # shell script, a person — sees the same 0 a clean report produces. A gate that can
+    # be made to say yes without looking is not a gate, so this combination is refused.
     if args.list_checks:
+        if args.report or args.manifest:
+            die("--list-checks prints the catalogue of checks and examines nothing. "
+                "Asking for it alongside a report would exit 0 without checking that "
+                "report, which is indistinguishable from a pass. Run one or the other:\n"
+                "  python check.py --list-checks\n"
+                "  python check.py %s --manifest manifest.json"
+                % (args.report or "report.md"))
         for name in CHECK_NAMES:
             sys.stdout.write(name + "\n")
         return 0

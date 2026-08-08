@@ -57,6 +57,14 @@ investigator read, the record the gate checked, and the record in this folder ar
 record. The replacement counts are printed in that manifest's own header, including the rule that
 matched nothing. The raw export never enters version control.
 
+Run 1's sweep is the exception and is weaker: it was applied **after** its investigation, when a
+pre-commit check caught two categories — a personal name and a platform identifier — that the
+intake's clearance had not been built to look for. Three strings, none of them quoted in the
+report or named in its reasoning, and the gate still verifies all eleven quotations against the
+swept record. It was accepted at the human's final read. Both the run's notes and its comparison
+note say what the ordering costs, and `OPEN-DEFECTS.md` carries it as a standing defect rather
+than a closed one.
+
 **The comparisons are honest in both directions.** A perfect score would be a reason to suspect
 the run rather than to celebrate it. Run 1 missed a contradiction sitting in its own window that
 the answer key states outright, and its comparison note says so at length — that miss is the best

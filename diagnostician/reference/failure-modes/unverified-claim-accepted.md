@@ -73,4 +73,6 @@ Decide it from the record, not from who is reading the report.
 
 ---
 
-*Example: none yet. Worked examples are added from real investigations.*
+*Example: none yet. No shipped investigation has landed on this mode, so there is no real
+case to show and none is invented here. The three modes that do have one are worked through
+in `../../examples.md`.*

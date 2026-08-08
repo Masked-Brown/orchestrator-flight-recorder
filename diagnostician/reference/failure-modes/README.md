@@ -24,6 +24,12 @@ the verdict, and it is decided separately. See `../verdict-classes.md`.
 | [`unverified-claim-accepted`](unverified-claim-accepted.md) | A confident explanation taken at face value when checking it would have been cheap. |
 | [`uncosted-commitment`](uncosted-commitment.md) | Work agreed in full and set running with nobody stating what it would cost, so the party who set the budget had nothing to weigh. |
 
+Three of these carry a real worked case at the foot of their file — `vocabulary-mismatch`,
+`uncosted-commitment` and `ambiguous-instruction` — each from a shipped investigation, and each
+worked through at length in `../../examples.md`. The other six are defined and their
+distinguishing tests are written, but no investigation has landed on them yet, and their files
+say so rather than carrying an invented example.
+
 ## Narrowing down
 
 The fastest route to the right file is usually one of these questions. Each one splits the set

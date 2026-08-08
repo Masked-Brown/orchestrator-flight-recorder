@@ -67,4 +67,10 @@ unavoidable once, in passing, and assume the reader has never seen this system b
 
 ---
 
-*Example: none yet. Worked examples are added from real investigations.*
+*Example: REAL. A model turn opened by promising the state of the work in plain English, then
+stated the section that followed in terms it never defined. The person steering halted the work
+in the next message, named that section, named one term in it he did not know, and did not make
+the one decision the turn had asked him for. Both halves — the standard and the departure from
+it — sat inside a single message, on the channel both parties could read; the turn's own private
+reasoning weighed which findings to report and never once weighed whether the wording could be
+followed. Verdict: `mechanical`. Worked through in full in `../../examples.md`, example 1.*
