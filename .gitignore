@@ -1,0 +1,13 @@
+# Raw conversation export: never committed
+data-*/
+*.zip
+conversations.json
+users.json
+projects.json
+memories*.json
+ofr-scout/
+projects/
+login_history.json
+conversations.json
+users.json
+touchdowns/nothing        # placeholder line, ignore this, see step 2
