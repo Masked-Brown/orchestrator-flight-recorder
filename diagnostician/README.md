@@ -4,9 +4,11 @@ Drop this folder into a Claude project. Claude becomes an air accident investiga
 working sessions: you show it a session that went wrong, and it tells you **why**, anchored to
 what was actually said, and then stops.
 
-> **Under construction.** `identity.md` is drafted. `rules.md`, `reference/` and
-> `examples.md` are not written yet, so the investigator is not usable as of this commit.
-> This page describes the shape it is being built to.
+> **Not finished yet.** `identity.md`, `rules.md` and everything in `reference/` are written,
+> so the investigator has what it needs to work. What is missing is worked examples:
+> `examples.md` does not exist yet, and the failure-mode files each end with a placeholder
+> where a real case will go. Both are filled from actual investigations rather than invented,
+> which is why they are last.
 
 ## What you give it
 
@@ -41,6 +43,12 @@ A report in seven fixed sections:
 
 The report ends there. That is deliberate.
 
+**Everything in it points at a message.** Quotes are exact and carry the message number, who it
+belongs to, and which channel it came from — what was sent, what the model was working out
+privately, what a tool did. That last part matters more than it sounds: a report that quotes the
+model's private reasoning as though it had been said out loud is telling you about a
+conversation that did not happen.
+
 ## What it will not do
 
 **It will not fix anything.** No rewritten prompts, no improved instructions, no "next time,
@@ -62,10 +70,10 @@ settled it.
 |---|---|
 | `identity.md` | Who the investigator is and the discipline it works to |
 | `rules.md` | How it works: standard of evidence, cause vs symptom, when to stop |
-| `reference/failure-modes/` | The named ways these sessions fail, one file each |
-| `reference/report-schema.md` | The seven sections, with a template |
-| `reference/verdict-classes.md` | The five verdicts and what each one requires |
-| `examples.md` | Real investigations, start to finish |
+| `reference/failure-modes/` | The eight named ways these sessions fail, one file each |
+| `reference/report-schema.md` | The seven sections, the citation format, and a template |
+| `reference/verdict-classes.md` | The five verdicts and what the record must show for each |
+| `examples.md` | Real investigations, start to finish — *not written yet* |
 
 ## A note on the recording
 

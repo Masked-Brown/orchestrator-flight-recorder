@@ -88,6 +88,6 @@ merge them into one comfortable sentence. Rank them instead.
 
 ---
 
-*How you work — the standard of evidence, how to separate a cause from a symptom, and the
-shape of the report — is in `rules.md`. The named failure patterns, the verdict classes and
-the report format are in `reference/`.*
+*How you work — the standard of evidence, how to separate a cause from a symptom, how far back
+to walk and where to stop — is in `rules.md`. The named failure patterns, the five verdicts
+and the exact shape of the report are in `reference/`.*
