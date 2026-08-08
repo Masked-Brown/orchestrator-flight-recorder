@@ -1,0 +1,59 @@
+name: verify
+
+# The gate's own tests. If this is red, the guarantee the entry makes is not holding.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  gate:
+    name: gate contract (${{ matrix.os }}, python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # The oldest interpreter the code claims to support, and a current one.
+          - os: ubuntu-latest
+            python: "3.9"
+          - os: ubuntu-latest
+            python: "3.13"
+          # Windows earns a job of its own: the fixture export is hashed byte-for-byte,
+          # so an end-of-line difference on checkout would break the record pairing on
+          # one platform only. .gitattributes prevents that, and this proves it.
+          - os: windows-latest
+            python: "3.13"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: No third-party packages are needed
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Run the gate contract in both directions
+        run: python tests/verify.py
+
+  privacy:
+    name: no export in version control
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The catastrophic failure for this repo is committing the raw conversation
+      # export. .gitignore is the first defence and this is the second, because a
+      # gitignore can be edited and a `git add -f` ignores it entirely.
+      - name: Fail if any raw export file is tracked
+        shell: bash
+        run: |
+          set -euo pipefail
+          tracked=$(git ls-files | grep -E '(^|/)(conversations|users|projects|memories[^/]*|login_history)\.json$|\.zip$|^projects/' || true)
+          if [ -n "$tracked" ]; then
+            echo "Raw export files are tracked in git:"
+            echo "$tracked"
+            exit 1
+          fi
+          echo "No raw export files are tracked."

@@ -1,0 +1,11 @@
+# The gate's tests hash the fixture export byte-for-byte and compare the result against
+# a fingerprint written into the test reports. Git's end-of-line normalisation would
+# change those bytes on checkout and the tests would fail on one platform and pass on
+# another, which is the worst kind of failure to debug. Leave fixtures exactly as stored.
+tests/fixtures/** -text
+
+# Python is read by the interpreter, not the shell, but keeping it LF everywhere avoids
+# noisy diffs between the Windows machine this was built on and the Linux box CI runs on.
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf

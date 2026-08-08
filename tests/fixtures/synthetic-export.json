@@ -1,0 +1,273 @@
+[
+  {
+    "uuid": "00000000-0000-4000-8000-000000000001",
+    "name": "synthetic-grid-mismatch",
+    "summary": "CONSTRUCTED fixture. Not a real session.",
+    "created_at": "2026-01-05T09:00:00.000000Z",
+    "updated_at": "2026-01-05T09:22:00.000000Z",
+    "account": { "uuid": "00000000-0000-4000-8000-0000000000ff" },
+    "chat_messages": [
+      {
+        "uuid": "10000000-0000-4000-8000-000000000001",
+        "parent_message_uuid": "00000000-0000-4000-8000-00000000root",
+        "sender": "human",
+        "created_at": "2026-01-05T09:00:00.000000Z",
+        "updated_at": "2026-01-05T09:00:00.000000Z",
+        "text": "There are two layouts in this repo: the v1 grid and the v2 grid. Build the report page on the v1 grid.",
+        "content": [
+          {
+            "type": "text",
+            "text": "There are two layouts in this repo: the v1 grid and the v2 grid. Build the report page on the v1 grid."
+          }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000002",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000001",
+        "sender": "assistant",
+        "created_at": "2026-01-05T09:01:00.000000Z",
+        "updated_at": "2026-01-05T09:01:00.000000Z",
+        "text": "The v1 grid is the older of the two, but they named it explicitly, so the report page goes on v1.Report page built on the v1 grid.",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "The v1 grid is the older of the two, but they named it explicitly, so the report page goes on v1.",
+            "summaries": [],
+            "thinking_hidden": false
+          },
+          { "type": "text", "text": "Report page built on the v1 grid." },
+          {
+            "type": "tool_use",
+            "name": "create_file",
+            "input": { "path": "report_page.py", "content": "GRID = \"v1\"\n" }
+          },
+          {
+            "type": "tool_result",
+            "name": "create_file",
+            "content": [{ "type": "text", "text": "created report_page.py" }],
+            "is_error": false
+          },
+          { "type": "text", "text": "The v1 grid is in place." }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000003",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000002",
+        "sender": "human",
+        "created_at": "2026-01-05T09:04:00.000000Z",
+        "updated_at": "2026-01-05T09:04:00.000000Z",
+        "text": "Now add the summary panel to the report page.",
+        "content": [
+          { "type": "text", "text": "Now add the summary panel to the report page." }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000004",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000003",
+        "sender": "assistant",
+        "created_at": "2026-01-05T09:05:00.000000Z",
+        "updated_at": "2026-01-05T09:05:00.000000Z",
+        "text": "Summary panel added to the report page.",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "summaries": [{ "summary": "Adding the summary panel to the existing report page" }],
+            "thinking_hidden": true
+          },
+          { "type": "text", "text": "Summary panel added to the report page." }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000005",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000004",
+        "sender": "human",
+        "created_at": "2026-01-05T09:09:00.000000Z",
+        "updated_at": "2026-01-05T09:09:00.000000Z",
+        "text": "make the dashboard work like before",
+        "content": [{ "type": "text", "text": "make the dashboard work like before" }],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000006",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000005",
+        "sender": "assistant",
+        "created_at": "2026-01-05T09:10:00.000000Z",
+        "updated_at": "2026-01-05T09:10:00.000000Z",
+        "text": "Before could mean the v1 grid we used for the report page, or the v2 grid the rest of the app is on. They did not say which. The v2 grid is newer, so I will use that.Rebuilding the dashboard on the v2 grid.",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Before could mean the v1 grid we used for the report page, or the v2 grid the rest of the app is on. They did not say which. The v2 grid is newer, so I will use that.",
+            "summaries": [],
+            "thinking_hidden": false
+          },
+          { "type": "text", "text": "Rebuilding the dashboard on the v2 grid." },
+          {
+            "type": "tool_use",
+            "name": "str_replace",
+            "input": { "path": "dashboard.py", "old_str": "v1", "new_str": "v2" }
+          },
+          {
+            "type": "tool_result",
+            "name": "str_replace",
+            "content": [{ "type": "text", "text": "dashboard.py updated" }],
+            "is_error": false
+          }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000007",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000006",
+        "sender": "human",
+        "created_at": "2026-01-05T09:13:00.000000Z",
+        "updated_at": "2026-01-05T09:13:00.000000Z",
+        "text": "fine, keep going",
+        "content": [{ "type": "text", "text": "fine, keep going" }],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000008",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000007",
+        "sender": "assistant",
+        "created_at": "2026-01-05T09:14:00.000000Z",
+        "updated_at": "2026-01-05T09:14:00.000000Z",
+        "text": "Continuing on the v2 grid for the dashboard.The dashboard now uses the v2 grid throughout.",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Continuing on the v2 grid for the dashboard.",
+            "summaries": [],
+            "thinking_hidden": false
+          },
+          { "type": "text", "text": "The dashboard now uses the v2 grid throughout." }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-000000000009",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000008",
+        "sender": "human",
+        "created_at": "2026-01-05T09:20:00.000000Z",
+        "updated_at": "2026-01-05T09:20:00.000000Z",
+        "text": "the dashboard looks nothing like the report page",
+        "content": [
+          { "type": "text", "text": "the dashboard looks nothing like the report page" }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "10000000-0000-4000-8000-00000000000a",
+        "parent_message_uuid": "10000000-0000-4000-8000-000000000009",
+        "sender": "assistant",
+        "created_at": "2026-01-05T09:22:00.000000Z",
+        "updated_at": "2026-01-05T09:22:00.000000Z",
+        "text": "The report page is on v1 and the dashboard is on v2. That is the mismatch.The dashboard is on the v2 grid and the report page is on the v1 grid, so they do not match.",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "The report page is on v1 and the dashboard is on v2. That is the mismatch.",
+            "summaries": [],
+            "thinking_hidden": false
+          },
+          {
+            "type": "text",
+            "text": "The dashboard is on the v2 grid and the report page is on the v1 grid, so they do not match."
+          }
+        ],
+        "attachments": [],
+        "files": []
+      }
+    ]
+  },
+  {
+    "uuid": "00000000-0000-4000-8000-000000000002",
+    "name": "synthetic-thin-record",
+    "summary": "CONSTRUCTED fixture. Not a real session.",
+    "created_at": "2026-01-06T11:00:00.000000Z",
+    "updated_at": "2026-01-06T11:07:00.000000Z",
+    "account": { "uuid": "00000000-0000-4000-8000-0000000000ff" },
+    "chat_messages": [
+      {
+        "uuid": "20000000-0000-4000-8000-000000000001",
+        "parent_message_uuid": "00000000-0000-4000-8000-00000000root",
+        "sender": "human",
+        "created_at": "2026-01-06T11:00:00.000000Z",
+        "updated_at": "2026-01-06T11:00:00.000000Z",
+        "text": "Carry on from where we left off yesterday and finish the migration.",
+        "content": [
+          {
+            "type": "text",
+            "text": "Carry on from where we left off yesterday and finish the migration."
+          }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "20000000-0000-4000-8000-000000000002",
+        "parent_message_uuid": "20000000-0000-4000-8000-000000000001",
+        "sender": "assistant",
+        "created_at": "2026-01-06T11:02:00.000000Z",
+        "updated_at": "2026-01-06T11:02:00.000000Z",
+        "text": "Continuing the migration.",
+        "content": [
+          { "type": "thinking", "thinking": "", "summaries": [], "thinking_hidden": true },
+          { "type": "text", "text": "Continuing the migration." },
+          {
+            "type": "tool_use",
+            "name": "bash_tool",
+            "input": { "command": "python migrate.py --step 4" }
+          },
+          {
+            "type": "tool_result",
+            "name": "bash_tool",
+            "content": [{ "type": "text", "text": "migrate.py: step 4 failed: no such column: tenant_id" }],
+            "is_error": true
+          }
+        ],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "20000000-0000-4000-8000-000000000003",
+        "parent_message_uuid": "20000000-0000-4000-8000-000000000002",
+        "sender": "human",
+        "created_at": "2026-01-06T11:05:00.000000Z",
+        "updated_at": "2026-01-06T11:05:00.000000Z",
+        "text": "why did that fail?",
+        "content": [{ "type": "text", "text": "why did that fail?" }],
+        "attachments": [],
+        "files": []
+      },
+      {
+        "uuid": "20000000-0000-4000-8000-000000000004",
+        "parent_message_uuid": "20000000-0000-4000-8000-000000000003",
+        "sender": "assistant",
+        "created_at": "2026-01-06T11:07:00.000000Z",
+        "updated_at": "2026-01-06T11:07:00.000000Z",
+        "text": "The migration step reported an error.",
+        "content": [
+          { "type": "thinking", "thinking": "", "summaries": [], "thinking_hidden": true },
+          { "type": "text", "text": "The migration step reported an error." }
+        ],
+        "attachments": [],
+        "files": []
+      }
+    ]
+  }
+]
