@@ -88,7 +88,15 @@ PRESCRIPTION_SOFT = (
     "should have", "ought to have", "would have been better", "should be", "should have been",
 )
 
-ANCHOR_RE = re.compile(r"msg\s+(\d+)\s*\(\s*([A-Za-z]+)\s*,\s*([A-Z][A-Z-]*)\s*\)")
+# `Msg 12 (assistant, SAID):` is the same anchor as `msg 12 (assistant, SAID):`. An anchor
+# is identified by its message number, role and channel; the case of the word in front of
+# them is where the sentence happened to break. Reports are wrapped prose, so an anchor
+# lands at the start of a sentence regularly, and English capitalises it there. Matching
+# only the lower-case form rejected an honest report over a capital letter — the same
+# error as reading anchors line by line when they wrap, and it fails the same way: writers
+# learn to avoid opening a sentence with a citation, and the gate is teaching typography.
+# The channel stays upper-case only, because those are the record's own labels.
+ANCHOR_RE = re.compile(r"[Mm]sg\s+(\d+)\s*\(\s*([A-Za-z]+)\s*,\s*([A-Z][A-Z-]*)\s*\)")
 WHITESPACE_RE = re.compile(r"\s+")
 ELLIPSIS_RE = re.compile(r"\[\s*\.\s*\.\s*\.\s*\]")
 

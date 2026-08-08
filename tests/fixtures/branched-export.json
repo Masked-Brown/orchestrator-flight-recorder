@@ -1,0 +1,152 @@
+[
+  {
+    "uuid": "11111111-0000-4000-8000-000000000001",
+    "name": "forked-session",
+    "created_at": "2020-01-01T09:00:00.000000Z",
+    "updated_at": "2020-01-01T09:30:00.000000Z",
+    "chat_messages": [
+      {
+        "uuid": "aaaa0001-0000-4000-8000-000000000000",
+        "parent_message_uuid": "00000000-0000-4000-8000-000000000000",
+        "sender": "human",
+        "created_at": "2020-01-01T09:00:00.000000Z",
+        "updated_at": "2020-01-01T09:00:00.000000Z",
+        "attachments": [],
+        "files": [],
+        "text": "build the report from the file in C:\\Users\\testperson\\work",
+        "content": [
+          {
+            "type": "text",
+            "text": "build the report from the file in C:\\Users\\testperson\\work"
+          }
+        ]
+      },
+      {
+        "uuid": "aaaa0002-0000-4000-8000-000000000000",
+        "parent_message_uuid": "aaaa0001-0000-4000-8000-000000000000",
+        "sender": "assistant",
+        "created_at": "2020-01-01T09:01:00.000000Z",
+        "updated_at": "2020-01-01T09:01:00.000000Z",
+        "attachments": [],
+        "files": [],
+        "text": "reading it now",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "",
+            "summaries": [
+              {
+                "summary": "Considering which file was meant."
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "text": "reading it now"
+          },
+          {
+            "type": "tool_use",
+            "name": "view",
+            "input": {
+              "path": "C:\\Users\\testperson\\work\\notes.md",
+              "description": "Read the notes"
+            }
+          },
+          {
+            "type": "tool_result",
+            "name": "view",
+            "is_error": false,
+            "content": [
+              {
+                "type": "text",
+                "text": "the notes say to publish at github.com/testperson/thing"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "uuid": "aaaa0003-0000-4000-8000-000000000000",
+        "parent_message_uuid": "aaaa0002-0000-4000-8000-000000000000",
+        "sender": "human",
+        "created_at": "2020-01-01T09:02:00.000000Z",
+        "updated_at": "2020-01-01T09:02:00.000000Z",
+        "attachments": [
+          {
+            "file_name": "brief.md",
+            "file_type": "text/markdown",
+            "extracted_content": "the brief lives at C:\\Users\\testperson\\brief.md"
+          }
+        ],
+        "files": [],
+        "text": "here is the brief",
+        "content": [
+          {
+            "type": "text",
+            "text": "here is the brief"
+          }
+        ]
+      },
+      {
+        "uuid": "aaaa0004-0000-4000-8000-000000000000",
+        "parent_message_uuid": "aaaa0003-0000-4000-8000-000000000000",
+        "sender": "assistant",
+        "created_at": "2020-01-01T09:03:00.000000Z",
+        "updated_at": "2020-01-01T09:03:00.000000Z",
+        "attachments": [],
+        "files": [],
+        "text": "first answer, later regenerated",
+        "content": [
+          {
+            "type": "text",
+            "text": "first answer, later regenerated"
+          }
+        ]
+      },
+      {
+        "uuid": "aaaa0005-0000-4000-8000-000000000000",
+        "parent_message_uuid": "aaaa0003-0000-4000-8000-000000000000",
+        "sender": "assistant",
+        "created_at": "2020-01-01T09:04:00.000000Z",
+        "updated_at": "2020-01-01T09:04:00.000000Z",
+        "attachments": [],
+        "files": [],
+        "text": "second answer, the one that stood",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "Working out which reading of the brief was meant.",
+            "summaries": []
+          },
+          {
+            "type": "text",
+            "text": "second answer, the one that stood"
+          }
+        ]
+      },
+      {
+        "uuid": "aaaa0006-0000-4000-8000-000000000000",
+        "parent_message_uuid": "aaaa0005-0000-4000-8000-000000000000",
+        "sender": "human",
+        "created_at": "2020-01-01T09:05:00.000000Z",
+        "updated_at": "2020-01-01T09:05:00.000000Z",
+        "attachments": [],
+        "files": [],
+        "text": "good, carry on",
+        "content": [
+          {
+            "type": "text",
+            "text": "good, carry on"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "uuid": "22222222-0000-4000-8000-000000000002",
+    "name": "forked-session",
+    "created_at": "2020-01-01T09:00:00.000000Z",
+    "updated_at": "2020-01-01T09:00:00.000000Z",
+    "chat_messages": []
+  }
+]

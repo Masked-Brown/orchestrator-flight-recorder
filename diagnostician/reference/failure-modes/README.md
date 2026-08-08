@@ -22,6 +22,7 @@ the verdict, and it is decided separately. See `../verdict-classes.md`.
 | [`premature-parallelism`](premature-parallelism.md) | New work started before existing work is finished and checked. |
 | [`scope-injection`](scope-injection.md) | The job quietly got bigger or smaller without the change ever being surfaced as a decision. |
 | [`unverified-claim-accepted`](unverified-claim-accepted.md) | A confident explanation taken at face value when checking it would have been cheap. |
+| [`uncosted-commitment`](uncosted-commitment.md) | Work agreed in full and set running with nobody stating what it would cost, so the party who set the budget had nothing to weigh. |
 
 ## Narrowing down
 
@@ -38,6 +39,9 @@ roughly in half; then read the two or three candidate files and use their own co
   `ambiguous-instruction`. The person could not evaluate the model → `vocabulary-mismatch`.
 - **Was something believed that should have been checked?** → `unverified-claim-accepted`.
 - **Is the job being worked on the job that was agreed?** → `scope-injection`.
+- **Is the complaint about the goods, or about the bill?** The work itself is disputed →
+  `scope-injection` and its neighbours. The work is accepted and its cost is the objection →
+  `uncosted-commitment`.
 
 If two modes still both fit after reading their files, that is usually a sign the but-for test
 has not been finished. Go back to it: the mode you want is the one attached to the message whose

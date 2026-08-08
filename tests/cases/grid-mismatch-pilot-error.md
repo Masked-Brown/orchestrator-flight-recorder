@@ -20,7 +20,7 @@ Where the mismatch is first raised, msg 9 (human, SAID):
 
 > the dashboard looks nothing like the report page
 
-The state of the work at that point, msg 10 (assistant, SAID):
+The state of the work at that point is in the reply. Msg 10 (assistant, SAID):
 
 > The dashboard is on the v2 grid and the report page is on the v1 grid, so they do not match.
 

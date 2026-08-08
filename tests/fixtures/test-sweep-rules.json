@@ -1,0 +1,20 @@
+{
+  "_comment": "Redaction rules used only by tests/parser-check.py against branched-export.json.",
+  "rules": [
+    {
+      "name": "local-filesystem-path",
+      "pattern": "[A-Za-z]:\\\\+Users\\\\+[^\\s\"'`,;)\\]]*",
+      "replacement": "[path]"
+    },
+    {
+      "name": "repository-url",
+      "pattern": "(?:https?://)?(?:www\\.)?github\\.com/[^\\s\"'`,;)\\]]*",
+      "replacement": "[url]"
+    },
+    {
+      "name": "matches-nothing-on-purpose",
+      "pattern": "zzzz-no-such-string-zzzz",
+      "replacement": "[never]"
+    }
+  ]
+}

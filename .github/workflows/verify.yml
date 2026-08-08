@@ -37,6 +37,13 @@ jobs:
       - name: Run the gate contract in both directions
         run: python tests/verify.py
 
+      # The gate's tests run parse.py but only ever ask whether the manifest it
+      # produced lets a report pass. Determinism, the branch tree, the redaction sweep
+      # and keeping the reader's own filesystem out of a shipped manifest are all
+      # invisible from there, and all four are load-bearing.
+      - name: Run the parser contract
+        run: python tests/parser-check.py
+
   privacy:
     name: no export in version control
     runs-on: ubuntu-latest

@@ -1,0 +1,256 @@
+{
+  "branch_points": {},
+  "conversation": {
+    "created_at": "2026-08-05T07:27:38.066966Z",
+    "index": 10,
+    "message_count": 56,
+    "name": "nbs-wor-1.0-z",
+    "updated_at": "2026-08-06T05:47:01.639212Z",
+    "uuid": "e19178eb-10e5-4d3f-aebd-9cbbba5b33ce"
+  },
+  "messages": [
+    {
+      "branch_siblings": [],
+      "branch_status": "live",
+      "children": [
+        43
+      ],
+      "index": 42,
+      "parent": 41,
+      "reasoning": "summary-only",
+      "role": "assistant",
+      "segments": [
+        {
+          "channel": "REASONING-SUMMARY",
+          "note": "reasoning text withheld from the export; these are the export's own summaries",
+          "text": "Thinking about integrating game replay data, identifying floating block glitch, and developing comprehensive scoring algorithm for game v1.2 with rule optimization recommendations.\nSynthesizing scoring mechanics, debugging floating-block glitch, refining game improvements.\nOrchestrating replay relocation and auditing game mechanics comprehensively.\nOrchestrated replay relocation, scoring architecture, and 03C audit framework."
+        },
+        {
+          "channel": "SAID",
+          "text": "## Where we are, in simple English\n\nThe campaign worked, and the result is strong. The final champion plays 5.6 times better than the hand-built starting agent, with a median of 643,996 over the frozen 500-game exam, a best game of 2.7 million, and a 65,536 tile. The single biggest discovery: **seeing ahead matters more than judging better.** Two full breeding campaigns improved judgement by 1.8x combined; adding lookahead at identical judgement multiplied it by 3.15x. The one-block preview is the most undervalued information in the game.\n\nAnd your own game just became a finding. Your 121,496 sits level with the trained flat agents (v1 median 141,424) and comfortably above the original heuristic's median. Plain meaning: **a practised human plays at the level of a bred formula; the only thing that beats you is the machine's ability to look into the future.** That is close to the perfect LinkedIn sentence, and it exists because you played the benchmark game.\n\nThree loose ends from the report, my call on each:\n\n1. **The findings entered the register under a pre-authorisation reading.** The reading was correct, my order's deliverable said findings land in `_FINDINGS.md`, so I ratify it, and 03c will independently re-verify every finding anyway. Veto if you disagree.\n2. **Your replay needs a proper home.** It is load-bearing evidence for finding F004 and currently sits unhomed (the report saw it at the repo root; you've since put it in `_tmp`, where deliverables are forbidden to live). 03c's opening act finds it, homes it in `03_train/output/reference/`, commits it, and verifies it plays in cinema.\n3. **The floating-block glitch: almost certainly cosmetic, and provably not corrupting.** Your replay was engine-verified with a matching hash, so whatever you saw, the game's actual state stayed truthful; the fault is in the drawing layer, likely a timing edge like the background-tab bug caught earlier. Banked into game v1.2 as a defect to reproduce and fix, and I've asked 03c to see if code reading alone can explain it.\n\n## Your scoring question, clarified\n\nNothing was missed, and nothing was supposed to be built yet. Three separate pieces:\n\n- **Measurement**: already live since the build. Your own JSON proves it, it contains every per-move timestamp and the full duration. The game already records everything the algorithm will need.\n- **The grader**: needed the finished champion to exist. It now does.\n- **The equation** that combines accuracy, score, speed and the rest into one composite performance rating: that is a design decision we make together at the v1.2 gate, after 03c reports, informed by real distributions (we now know human 121k vs machine 644k median, so raw score cannot be the yardstick; accuracy-vs-champion carries the weight). I'll bring a concrete proposed equation to that gate.\n\nOne design note for then: grading every human move means running the champion's search in the browser per move. Depth 3 may be too slow for live grading; depth 2 as the grader is the likely call. Parked until the gate.\n\n## Work order 03c\n\n```markdown\n# Claude Code work order -- adversarial-audit-training\n\nFrom worker bee: nbs-[wor]-1.0-z\nModel: fable | Effort: maximum extended thinking | Rationale: the\nwhole point is a fresh, maximally sceptical mind auditing work it did\nnot do; findings from this audit gate everything published later.\n\n## Task\nYou did not build this experiment. Audit it cold: the game, the lab,\nthe training campaign and its six findings. Your job is to find where\nthis experiment is fooling itself, then to recommend, separately, how\nthe game and the experiment could be made deeper and more intriguing.\nYou fix nothing, except one mechanical opening chore.\n\n## Opening chore (the one write exception before read-only begins)\n- Locate AB's human benchmark replay [id].json (reported\n  at the repo root; AB has since placed a copy in _tmp/). Home ONE\n  canonical copy at 03_train/output/reference/[id].json,\n  remove the strays, verify it through the engine and in cinema mode\n  on the live site, and commit it via the sanctioned close path at\n  the end. It is load-bearing evidence for finding F004.\n\n## In scope (read everything, in this spirit)\n- docs/ -- the game and engine as shipped\n- 01_rules/output/ -- the law and its versions\n- 03_train/ -- harness, seeds, runs, weights, decision log, findings\n- The record: touchdowns, CHANGELOG, BUILD.md\n\n## Out of scope\n- Fixing, retuning, retraining, editing findings. You report only.\n- 04_publish/ -- nothing exists there yet.\n\n## CONTEXT to read\n- 03_train/CONTEXT.md, 01_rules/CONTEXT.md, CONTEXT.md (root)\n\n## Part 1: the audit (find where we fool ourselves)\nForm your own view before reading the decision log or findings, then\nreconcile. Check at minimum, and add your own attacks:\n1. Measurement integrity: eval-v1 genuinely frozen (hash history),\n   train/eval genuinely disjoint, no feature or decision anywhere in\n   the campaign that could have leaked exam information.\n2. Version honesty: every ladder row a named immutable version, its\n   pinned weights and features reproducing its claimed numbers.\n   Re-run spot checks: pick at least two ladder rows and one finding\n   and reproduce their numbers from the pinned artefacts yourself.\n3. Findings F001-F006: for each, is the evidence sufficient for its\n   confidence tier, is the mechanism claimed actually demonstrated,\n   and what alternative explanation survives? Challenge F004\n   specifically now that the human replay is homed: one practised\n   game is one game; state plainly what it can and cannot support.\n4. The champion: watch its enriched replay and probe its behaviour\n   for degenerate strategies the exam might reward but a human would\n   call cheap or dull. Is 5.6x real skill or exam exploitation?\n5. The instrument: anything in the harness, spawn maths, or metrics\n   that quietly biases results. Attempt to explain AB's reported\n   floating-block glitch (a block visually hovering mid-air during\n   human play) from code reading alone; renderer suspected, engine\n   hash verified. Report a hypothesis or say it needs live repro.\n6. The record: does the decision log honestly reflect the runs on\n   disk? Any claim in any report a fresh reader could not reproduce?\n\n## Part 2: recommendations (AB asked for these explicitly; advisory\nonly, nothing implemented)\n7. Rule changes you would recommend and why: anything that would\n   make the game a deeper, more intriguing testbed. Include your\n   assessment of the spawn probability curve specifically: is the\n   current drift well-tuned for interesting play, and what exact\n   parameter changes would you test?\n8. Experiment extensions that would add real depth or credibility:\n   better tests, richer probes, stronger baselines, anything the\n   ladder is missing.\n9. For every recommendation: the cost, what existing results it\n   would invalidate (a spawn change invalidates every score), and\n   whether you would do it BEFORE or AFTER publishing v1 findings.\n   Rank the full list by value for AB's goals: a rigorous, shareable\n   experiment and an engaging game.\n\n## Report\n- PASS / CONCERN / FAIL per audit item with evidence paths.\n- Findings verdict: for each of F001-F006, uphold, downgrade\n  confidence, or challenge, with reasons.\n- Ranked recommendations with costs and before/after-publish calls.\n- What you would fix first, as a draft outline for 03d. Fix nothing.\n\n## Verify (before you close)\n- The homed replay verifies in engine and cinema; strays removed.\n- Every reproduction you ran is named with its numbers.\n- Your close lands clean first time.\n```\n\n## Sequence\n\n1. **03c above: fire it. Single open item.**\n2. Gate: we read the audit and its recommendations together, decide what 03d does, and decide which recommendations land before publishing versus into a v2 backlog.\n3. 03d: remediation and re-runs per that decision.\n4. Training closes: journal, champion replay in hand.\n5. Game v1.2: floating-block fix, accuracy-vs-AI grading, the composite equation (my proposal at the gate), daily seed.\n6. Phase 4: results document, video, post."
+        }
+      ],
+      "timestamp": "2026-08-05T14:07:32.759694Z"
+    },
+    {
+      "branch_siblings": [],
+      "branch_status": "live",
+      "children": [
+        44
+      ],
+      "index": 43,
+      "parent": 42,
+      "reasoning": "absent",
+      "role": "human",
+      "segments": [
+        {
+          "channel": "SAID",
+          "text": "Okay, cool. 3C is running, and we will review the audit findings together, and then we'll run 3D. If you can just clarify in English, simply what 3D will have within it, then that'll be great. It's coming into multiple hours into the session now, so operator fatigue is starting to set in. I just want to keep things really simple from now on. I'm fine to sacrifice a bit of depth just to finish this game off.\nI think we've built most of it. It is literally just a case of adding in some form of accuracy feature, just looking at the different features that we've got. Obviously, there has to be deterministic. We don't have any API cost in this, and it has to just work locally using the play now link. That is obviously just part of the game v1.2, and the overall results documents and things like that should be quite simple.\nI've been working with another cool chat to basically finalize the full post in terms of what we're going to do, so I thought I'd just update you on that. What I've done is I've pasted the document that we produce with the other chat as an attachment, so have a look through that. All that we need is those seven points before we go live, and all of them will just be made in one CC prompt. That should be quite easy to do.\nFor the best game replay video, we can obviously just give people the JSON file to put into the cinema mode so they can watch it back themselves. That's how that would work. That's where we are right now. I'm just saying that I want to dumb this down, keep this simple going forwards. Don't add any complexity where it's not required. Keep everything super simple, and hopefully we should be done in not too long."
+        },
+        {
+          "channel": "ATTACHMENT",
+          "name": "(unnamed)",
+          "note": "txt, 4692 chars of extracted text",
+          "text": "# number-block-sim initial post - FINAL\r\n\r\nStatus: locked by AB, 2026-08-05. Goes live once the Phase 3/4 attachments land\r\n(build record, chat transcript, findings doc, replay video, final sim count).\r\nSame post for LinkedIn and the community, same attachments.\r\nSignature words: engine, replay, optimal play.\r\n\r\n---\r\n\r\n## Title\r\n\r\n**I found a number game on holiday, so I'm running hundreds of thousands of AI simulations to find the optimal way to play it**\r\n\r\n---\r\n\r\n## Post\r\n\r\nThe fastest way I have found to learn how AI actually works is to take something completely unserious and treat it like a research problem. A number game I played on a sunbed in Greece is now a deterministic engine, a simulation harness, and an experiment to find out what optimal play actually looks like.\r\n\r\nThe project runs in four phases:\r\n\r\n- Phase 1, Setup - public repo, the workspace infrastructure, and the game rules locked as a written spec before any code.\r\n- Phase 2, Build - the game rebuilt from scratch: one pure engine, a browser game on top, every game replayable.\r\n- Phase 3, Train - a simulation harness driving the same engine, and a ladder of AI agents from random baseline up to trained weights, hundreds of games per contender on fixed seeds.\r\n- Phase 4, Publish - an AI accuracy rating added to the game, a research-style results document, and this write-up.\r\n\r\nI was in Greece for ten days, away from my laptop and all the usual work, and I got properly bored. Found some offline number game on my phone and ended up playing it a couple of hours a day. How it works:\r\n\r\n- Number blocks fall into 5 columns, one at a time.\r\n- You choose which column each block lands in.\r\n- When two matching numbers touch, they merge into one bigger number - two 4s make an 8.\r\n- If a column fills past the top, the game ends.\r\n\r\nSimple rules, but scoring is all in the cascades - a merge that triggers more merges is worth multiples of a merge that just sits there. And the odds shift underneath you: the further you get, the more the game feeds you high-value blocks, so a low block you cannot pair any more becomes permanent dead space. The right move on block 10 is not the right move on block 60. That is a real probability problem wearing a phone game's clothes.\r\n\r\nBy the time I flew home, the idea had grown well past playing it. I wanted to rebuild the game from scratch. Then the ideas kept stacking: run simulations until an optimal algorithm emerges. Have the AI rate the way you play, a score for every single block you drop. Build out different scoring mechanisms so play can actually be measured, not just felt.\r\n\r\nThe honest reason behind all of it: everything I am doing right now is about learning as much about AI as possible, and the fastest learning comes from a project that forces it. This one forces plenty - how to design simulations properly, what an agent should actually optimise, how weightings get tuned, and how you separate a genuine finding from noise. The game is just the apparatus; the learning is the product. And there is a second layer to it - the full chat transcript attached below is a record of exactly how I think and work with AI right now. Partly a demonstration of that, partly a benchmark I can look back on in six months and see what has changed.\r\n\r\nSo that is what I built. One pure engine file that both the browser and the simulations run, a seeded generator so every game replays bit for bit, and the game shows you the live probability of every possible next block while you play. Every game auto-saves a replay, and cinema mode plays any replay back move by move - when the AI plays, its replays carry its reasoning, so you can watch it think through the same board you just fumbled.\r\n\r\nI ran the entire build through one Claude chat inside a structured workspace, partly as a test of how far a single chat can carry a project, and the full record of that is attached below.\r\n\r\nGo set a score before the AI does - link below. Happy to go deeper on any of it in the comments.\r\n\r\n[▶ Play now](https://[account].github.io/number-block-sim/)\r\n[GitHub repo]([url])\r\n\r\n---\r\n\r\n## Outstanding before go-live\r\n\r\n1. Build record MD (from BUILD.md + touchdowns) - Envoy can produce on AB's go.\r\n2. Chat transcript MD - needs AB to export/paste the chat text for sanitising.\r\n3. Findings / strategy doc - waits on Phase 3 runs and AB-gated promotion.\r\n4. AI accuracy rating in the game - Phase 4 build.\r\n5. Verify the real simulation count against the \"hundreds of thousands\" title claim.\r\n6. Best-game replay video - Phase 4; attach or drop.\r\n7. Final numbers (AI best score etc.) for the post or first comment."
+        },
+        {
+          "channel": "ATTACHMENT",
+          "name": "(unnamed)",
+          "note": "file supplied with the message; no text in the export",
+          "text": ""
+        }
+      ],
+      "timestamp": "2026-08-05T14:44:52.856782Z"
+    },
+    {
+      "branch_siblings": [],
+      "branch_status": "live",
+      "children": [
+        45
+      ],
+      "index": 44,
+      "parent": 43,
+      "reasoning": "absent",
+      "role": "assistant",
+      "segments": [
+        {
+          "channel": "SAID",
+          "text": "Understood. Simple mode from here: minimum steps, no added depth, finish the game.\n\n## What 03d is, in one breath\n\n03d is the fix-up job after the audit. We read 03c's report, keep only what actually matters for going live, and one CC prompt fixes exactly that list. Everything else the audit suggests goes in a v2 backlog file and is ignored. If the audit finds nothing that would embarrass the post, 03d shrinks to almost nothing or gets folded into the next job. It is a filter, not a phase.\n\n**One rule for the gate, given fatigue:** anything that would change the game's rules or spawn odds is automatically v2 backlog. A rules change invalidates every number we have, including your 121,496, and would cost hours of re-runs. Nothing the audit says is worth that before going live.\n\n## The post: read, it's good, two facts need aligning\n\nThe draft is strong and honest. Three corrections before lock, all small:\n\n1. **\"Hundreds of thousands of simulations\", your point 5: already true.** The two breeding campaigns alone were on the order of a million games (each generation is 10,000, times ~60 generations, times two campaigns, plus the eval runs). The verify step will state the exact count from the run manifests; the title survives comfortably.\n2. **\"Up to trained weights\" undersells the actual result.** The champion is trained weights *plus lookahead*, and the lookahead was the whole discovery (3.15x from search vs 1.8x from training). One phrase change in the Phase 3 bullet, worth it because it is the most interesting finding you have.\n3. **\"Hundreds of games per contender\" is actually 500 per contender on fixed seeds**, and your best number is: the AI plays 5.6x better than a strong hand-built strategy, and your own practised human game sits level with the trained formulas, beaten only by the machine's ability to see ahead. That line deserves the post or the first comment.\n\nAlso noting: the doc mentions \"Envoy\", so another chat is producing the build record. Fine, no conflict, as long as the CC prompt below is the one that assembles final artefacts from the repo record, and the transcript export stays your manual job.\n\n## The simple path to done\n\nFour steps remain. Nothing else.\n\n1. **Gate on 03c** (when it lands): we pick the go-live fix list, ten minutes, everything rules-related goes to backlog.\n2. **One CC prompt: 03d + game v1.2 combined.** Fixes from the audit list, the floating-block glitch, and the accuracy feature, built the simple way:\n   - Grader = the champion's judgement at shallow depth, running in the browser, pure local JS, zero API, zero cost, deterministic.\n   - After each game: accuracy percent (how often you matched the AI's move), plus your score, max tile, blocks, speed, one composite number from a simple fixed equation I'll propose at the gate.\n   - Daily seed stays if trivial, dropped if it adds any friction.\n3. **One CC prompt: publish pack.** Assembles all seven outstanding items from the repo record: build record, findings doc, sim count verified, final numbers, champion replay JSON packaged with a one-line \"drop this into cinema mode\" instruction (agreed, no video render needed). Transcript: you export, it sanitises.\n4. **You lock and post.**\n\nTwo CC prompts, one gate, one manual export. That's the whole remaining project.\n\nNothing needed from me until the audit lands. Paste it when it does and I'll bring the fix list and the composite equation to that gate."
+        }
+      ],
+      "timestamp": "2026-08-05T14:45:12.867193Z"
+    },
+    {
+      "branch_siblings": [],
+      "branch_status": "live",
+      "children": [
+        46
+      ],
+      "index": 45,
+      "parent": 44,
+      "reasoning": "absent",
+      "role": "human",
+      "segments": [
+        {
+          "channel": "SAID",
+          "text": "Yeah, okay, all that makes sense. Just pasted the output to 3C back to you so you can have a look through that. It will be the one CC prompt once we've reviewed that together.\nThe thing is, here we don't want to make any changes to the game itself in terms of the rules and the way it's played. I do want to add the bit where, after the game, you get a more in-depth breakdown of your statistics: number of blocks, total score, time taken, all of that stuff. Obviously, that's not an element that's changing the actual rules or impacting the score and the results that we've got.\nAlso, as part of this CC prompt, I want a fully comprehensive file created inside of 0_publish on the next steps of this. Just in general, if I did want to take this further, where would that go...."
+        },
+        {
+          "channel": "ATTACHMENT",
+          "name": "(unnamed)",
+          "note": "txt, 7757 chars of extracted text",
+          "text": "Audit report: adversarial-audit-training\n\nattention: amber -- the depth ablation (expectimax d2/d3) reads the engine's real next draw through the next-merge-ready feature at search leaves, violating its stated information set. Measured effect on scores is small, so the ladder stands on magnitude, but F001's \"attributable to search alone\" and the decision log's \"peek is structurally impossible\" need correction before anything publishes.\n\nClose is done: touchdown 0019 swept to completed, commit f655d80 pushed, sweep commit 3108728, tree clean, landed first time. The sweep's review-warranted verdict is just my six proposals tipping the queue over its threshold.\n\nOpening chore\n\n[id].json is homed at 03_train/output/reference/, committed via commit-safe. It verifies through the engine (score 121,496, hash a613b2d4, 256 moves) and in cinema on the live site (green \"verified\" badge, playback stepped and rendering). Note: the work order said AB placed a copy in _tmp/ — there was no such copy; _tmp/ holds only its gitkeep and CONTEXT.md. The root original was the sole copy, so nothing else needed removing. The stray-replay item 0b7c9d5d941a is resolved and gone from the gap queue.\n\nPart 1 verdicts\n\nItem: 1. Measurement integrity\nVerdict: PASS, two CONCERNs\nCore evidence: eval-v1: one commit ever, sha256 matches the log's\nopening record, self-checksum recomputes, train overlap 0/2000,\nengine/config hashes match every manifest\n────────────────────────────────────────\nItem: 2. Version honesty\nVerdict: PASS\nCore evidence: heuristic-v2 reproduced 500/500 games bit-exact from its\npinned module; expectimax-d2-v1 40/40; d3 8/8; all 2,500 recorded\neval games re-run through the engine with zero hash mismatches;\nhead-to-heads recompute exactly (325/500, 298/500, 401/500)\n────────────────────────────────────────\nItem: 3. Findings\nVerdict: see below\nCore evidence:\n────────────────────────────────────────\nItem: 4. Champion\nVerdict: PASS\nCore evidence: balanced columns (14–23% each), score carried by\nchain-3-to-5 cascades (58%), train medians ≈ eval medians, no\ndegenerate pattern. 5.6x is real skill, modulo the leak caveat\n────────────────────────────────────────\nItem: 5. Instrument\nVerdict: PASS with notes\nCore evidence: engine is spec-exact; glitch explained and confirmed\nlive (below)\n────────────────────────────────────────\nItem: 6. Record\nVerdict: PASS\nCore evidence: every decision-log claim I tested reproduces, including\nthe unflattering ones; behaviour probe reproduced digit-for-digit\n\nCONCERN A — the find of the audit. next-merge-ready reads ctx.next (next-merge-ready.js:28). At depth ≥ 2, expectimax evaluates positional features only at leaf contexts (expectimax.js:96-105,151-158), where ctx.next is the real drawn-but-unknowable third block (d2) or fourth block (d3). So the feature's entire contribution in d2/d3 is clairvoyant. I quantified it on 60 paired train games at a clean offset: zeroing the feature flips 7.8% of decisions (888/11,422 moves) but moves the paired median only 455,286 → 446,140 (head-to-head 33–27, not significant). The depth conclusions survive; the purity claims don't.\n\nCONCERN B, milder. The two campaign features were designed by inspecting the worst eval games (the death boards). Breeding never touched eval, and held-out train validation shows the same 1.45x uplift as eval, so this is mostly defused — but publish-grade practice would inspect train losses.\n\nThe floating-block glitch — explained and confirmed live. .tile carries transition: top 130ms ease-in (style.css:151); the falling tile, unlike settled tiles (no-anim) and the ghost, never disables it. positionFalling() rewrites style.top every frame, each write restarting a 130ms ease-in at near-zero velocity, so the rendered tile lags its engine position by up to a cell and hangs above the stack until the settled render snaps it down. I confirmed on the live play page: the falling tile's computed transition is active and its rendered top measurably lags its styled target. Renderer only; the engine hash is untouched, which matches AB's observation. Fix is one CSS line, for a licensed build job.\n\nFindings verdicts\n\n- F001 — uphold on magnitude, amend mechanism. 2.09x/3.15x reproduce and dwarf the leak's measured effect, but \"search alone\" is false until a leak-free re-run exists.\n- F002 — uphold. Generation 0 of breed 2 beating breed 1's entire ceiling is clean evidence the features carry value.\n- F003 — uphold. Probe reproduced exactly (decline 0.104, banked 0.5369). Caveat: d2's banking is partly leak-informed; measure the leak-free decline rate alongside the re-run.\n- F004 — uphold at suggestive, boundary stated plainly: one practised game supports exactly one claim — a practised human plays in the same regime as flat heuristic play, killing the 228-based three-orders gap. It cannot support \"sits level with\", cannot order the human against v1/v2 (flat agents' own IQRs span 2–3x), and carries selection ambiguity (a downloaded replay is plausibly a best-of-session). Soften the wording at publish.\n- F005 — uphold. Correlational though; a one-row strand-risk ablation would make it causal.\n- F006 — uphold as the measured null it claims to be; the probe only detects myopic chasing, which the finding already concedes.\n\nPart 2: ranked recommendations (full costings in touchdown 0019's proposals)\n\n1. Before publish — leak-free expectimax versions (d2-v2/d3-v2, expectation or zero for next-merge-ready at leaves) and re-run both eval rows (~40 min at 6 workers). Gates F001's \"strong\" tier.\n2. Before publish — practised-human set: 5–10 deliberate games, every game kept, homed beside the current replay. F004 is the only finding on n=1.\n3. Before publish — uncertainty on the ladder: bootstrap CIs and paired-difference intervals from existing games.jsonl, plus a fixed-horizon panel (score at N blocks, recomputable from recorded games — invalidates nothing). Pure analysis.\n4. Before publish — the one-line falling-tile CSS fix. Zero effect on results.\n5. Either side — two cheap eval rows: strand-risk ablation (makes F005 causal) and an overflow-lock-considering variant, because today no agent can choose a clutch rescue — the mechanic is unexplored by construction, and pricing it is genuinely publishable.\n6. After publish — the spawn/tuning study. My assessment of the curve: well-shaped for the AI, but the human game is pairs (the homed replay: 193 pairs, 23 triples, one chain-5 worth 36% of its score) while the AI's score lives in chains 3–7 — the game's stated soul, engineered cascades, is largely out of human reach. Batch the sweeps since each invalidates every absolute score: slope 300→450 (sharper, more plannable peak), centreGain 400→600 (faster drift, less survival compounding), floorWeight 40→20 (less late-game garbage), with converse controls; judge on fixed-horizon score and the flat-vs-search gap. The single rule change most likely to deepen human play is a two-block preview (rules v1.2) — it puts banking, the game's cleanest depth skill, within human reach. Large, invalidates everything, after publish only.\n\n03d draft outline (fix-first order): (1) leak fix + honest d2/d3 rows + clean banking probe; (2) human reference set; (3) ladder CIs + fixed-horizon panel; (4) CSS fix — each with the acceptance criterion that the restated finding reproduces from pinned artefacts, as everything in this audit did.\n\nThe record itself deserves saying plainly: every number I attacked — 2,500 games, three ladder rows at agent level, five head-to-heads, a fifty-game probe, two replays — reproduced bit-exact. The experiment's one real self-deception is the information-set claim, and its own infrastructure is what made finding it cheap.\n\n✻ Crunched for 27m 49s"
+        },
+        {
+          "channel": "ATTACHMENT",
+          "name": "(unnamed)",
+          "note": "file supplied with the message; no text in the export",
+          "text": ""
+        }
+      ],
+      "timestamp": "2026-08-05T14:52:14.898538Z"
+    },
+    {
+      "branch_siblings": [],
+      "branch_status": "live",
+      "children": [
+        47
+      ],
+      "index": 46,
+      "parent": 45,
+      "reasoning": "summary-only",
+      "role": "assistant",
+      "segments": [
+        {
+          "channel": "REASONING-SUMMARY",
+          "note": "reasoning text withheld from the export; these are the export's own summaries",
+          "text": "Thinking about adding post-game statistics features and planning next implementation steps.\nSynthesizing stats breakdown and next-steps documentation strategically.\nCalibrating composite scoring formula with accuracy weighting.\nOrchestrated audit findings, post-game stats addition, comprehensive roadmap documentation."
+        },
+        {
+          "channel": "SAID",
+          "text": "The audit did its job: every number it attacked reproduced exactly, and it found one real self-deception. In plain English: at the deepest point of its lookahead, one feature peeked at a block a real player couldn't legally know yet. The measured effect is tiny (about 2% of score, not statistically significant), but \"the gain came from search alone\" isn't an honest sentence until a clean re-run exists. Forty minutes of compute buys back full honesty. The glitch you hit is also solved: one CSS line, the falling tile's animation never gets switched off, so the picture lagged the truth. Engine was never wrong, matching your hash.\n\n## Gate verdict, simple mode\n\n**In (one combined CC prompt):** the leak fix and clean re-runs, the honest re-wording of the two affected findings, confidence intervals on the ladder (one script, invalidates nothing), the CSS fix, your post-game stats breakdown, the accuracy grader, the composite score, and the next-steps file.\n\n**Out (written into the next-steps file, not built):** everything touching rules or spawn odds (two-block preview, spawn sweeps), the clutch-rescue study, strand-risk ablation, RL baseline, leaderboard. Exactly per your no-rule-changes call.\n\n**One optional item, yours:** the audit rightly says your 121,496 is one game, so the published claim gets softened to what one game supports (\"a practised human plays in the same league as the trained flat agents\"). If you happen to feel like playing 3 to 5 more deliberate games while the prompt runs, saving every replay good or bad into the game as usual, the claim gets stronger. If not, the softened wording is honest and fine. Zero pressure.\n\n**The composite equation, proposed:** `performance = 0.5 x accuracy + 0.3 x scoreIndex + 0.2 x paceIndex`. Accuracy is the percent of your moves matching the AI grader. ScoreIndex is your score on a log scale capped at the champion's median (log because scores span orders of magnitude). PaceIndex rewards decisiveness: full marks at 2 seconds a move, zero at 12. All three constants are config tunables so we can retune after launch without touching results. Veto or accept.\n\n## The work order\n\n```markdown\n# Claude Code work order -- remediate-and-game-v1.2\n\nFrom worker bee: nbs-[wor]-1.0-z\nModel: opus | Effort: extended thinking | Rationale: a precisely\nspecified fix list from audit 0019 plus a scoped game feature; no open\ndesign judgement.\n\n## Task\nExecute the audit's before-publish fixes, then ship game v1.2: post-\ngame stats, an AI accuracy grade, a composite performance score, and\na next-steps roadmap. No rule changes, no spawn changes, anywhere.\n\n## In scope\n- 03_train/ -- leak-free agents, re-runs, analysis, findings updates\n- docs/ -- the CSS fix and the v1.2 features\n- 04_publish/output/NEXT_STEPS.md -- new\n- 03_train/CONTEXT.md, 02_build/output/BUILD.md -- record updates\n\n## Out of scope\n- 01_rules/ -- READ-ONLY. Any change to rules or spawn parameters is\n  forbidden, whatever the audit recommended; those are recorded in\n  NEXT_STEPS.md instead.\n- eval-v1 -- frozen as ever.\n- No RL, no leaderboard, no new game mechanics.\n\n## CONTEXT to read\n- 03_train/CONTEXT.md, 02_build/CONTEXT.md, CONTEXT.md (root),\n  04_publish/CONTEXT.md\n- Audit touchdown 0019 (completed/) -- the fix list and its evidence\n\n## Do, part 1: honesty fixes (audit items, exactly as costed)\n1. Leak-free expectimax: at search leaves the next-merge-ready\n   feature must use expectation over the live spawn distribution (or\n   zero), never the engine's real drawn-but-unknowable block. New\n   immutable versions expectimax-d2-v2 and d3-v2; re-run both on\n   eval-v1; update the ladder with the honest rows (keep the old rows\n   visible, marked superseded-by-leak-fix).\n2. Re-run the banking probe on the leak-free d2; restate F003's\n   decline and banking rates from it.\n3. Amend F001 and F003 in _FINDINGS.md with dated corrections (append,\n   never rewrite): magnitude upheld, mechanism restated honestly.\n   Append the same dated correction note to the decision log.\n4. Ladder uncertainty: bootstrap confidence intervals and paired-\n   difference intervals from the existing games.jsonl for every\n   ladder row, plus the fixed-horizon panel (score at N blocks from\n   recorded games). Pure analysis, no new games beyond item 1's.\n5. F004 wording: soften to exactly what n=1 supports. IF additional\n   human replays exist in 03_train/output/reference/ at run time,\n   incorporate them and restate accordingly; do not wait for them.\n6. The falling-tile CSS fix per the audit's diagnosis (disable the\n   transition on the actively falling tile). Verify live: no hover\n   lag, settled behaviour unchanged.\n\n## Do, part 2: game v1.2 (features only, zero mechanics changes)\n7. Post-game breakdown screen: score, max tile, blocks placed,\n   merges by size, longest chain, total time, median seconds per\n   move, all from data the game already records. Clean, readable,\n   consistent with the current visual style.\n8. Accuracy grade: after each human game, grade every recorded move\n   against the leak-free champion judgement at depth 2, entirely in\n   the browser, deterministic, no network. Show accuracy percent on\n   the breakdown screen. Keep grading time acceptable (grade\n   progressively or on a spinner if needed; never block gameplay).\n9. Composite performance score on the same screen:\n   0.5 x accuracy + 0.3 x scoreIndex + 0.2 x paceIndex, scoreIndex\n   log-scaled and capped at the champion eval median, paceIndex 100\n   at <=2s median move time falling to 0 at 12s. All constants named\n   tunables in config.js. Show the three components, not just the\n   total, so the number explains itself.\n10. Daily seed: include only if it is genuinely trivial (a date-\n    derived seed option on the home screen); if it complicates\n    anything, record it in NEXT_STEPS.md and skip.\n\n## Do, part 3: the roadmap\n11. Write 04_publish/output/NEXT_STEPS.md: a comprehensive, plainly\n    written roadmap of where this project could go next. Include at\n    minimum, each with value, rough cost, and what it would\n    invalidate: the spawn-tuning study and two-block preview (the\n    audit's full reasoning), clutch-rescue pricing, strand-risk\n    ablation, the RL baseline question, a Neon-backed leaderboard\n    and daily competition, richer human study (many players, skill\n    curves), mobile controls, and anything else the record suggests.\n    Mark each BEFORE-V2-RESULTS or PRODUCT-ONLY.\n\n## Verify (before you close)\n- Leak-free ladder rows present with CIs; the leak's true measured\n  cost stated plainly.\n- All findings amendments dated and append-only.\n- Live site: full game, breakdown screen with all stats, accuracy\n  and composite showing with components, glitch gone.\n- Grading determinism: the same replay grades identically twice.\n- No diff anywhere under 01_rules/; eval-v1 hash unchanged.\n```\n\n## Sequence\n\n1. **Fire the order above. Single open item.**\n2. Optional in parallel: your extra human games, saved as usual.\n3. Your two-minute playtest of v1.2 when it lands.\n4. Publish-pack prompt from me: assembles all seven go-live items, softened-or-strengthened F004 wording included, plus your transcript export sanitised.\n5. You lock and post. Done."
+        }
+      ],
+      "timestamp": "2026-08-05T14:53:28.825618Z"
+    },
+    {
+      "branch_siblings": [],
+      "branch_status": "live",
+      "children": [
+        48
+      ],
+      "index": 47,
+      "parent": 46,
+      "reasoning": "absent",
+      "role": "human",
+      "segments": [
+        {
+          "channel": "SAID",
+          "text": "Okay, cool, the job just finished. It took over two hours, which I'm not sure was what you had imagined. It's certainly not what I imagined, so I want you to tell me why and what went wrong, because I'm a bit confused as to why it took so long. That wasn't really part of the plan, so that's that.\nI've done the two-minute play test of v1.2. That's fine. If you can confirm we're right, answer that question, give me the brain wave, and then I think we're on to making that published pack prompt. You can give me the initial scope for those items and exactly how we're going to do that and create that published pack."
+        },
+        {
+          "channel": "ATTACHMENT",
+          "name": "(unnamed)",
+          "note": "txt, 4746 chars of extracted text",
+          "text": "The work is committed, pushed and swept. While the browser cache window expires for the final live check, here is where things stand.\n\nThe audit's headline fix, and its measured worth. The leaf-preview leak was real — next-merge-ready was scoring the engine's drawn-but-unknowable next block at every search leaf. Leak-free expectimax-d2-v2 and d3-v2 now integrate that feature over the exact live spawn distribution instead, and both sat all 500 eval-v1 seeds:\n\n┌───────┬─────────┬────────────┬─────────┬───────────┬────────────┐\n│ depth │ leaked  │ leak-free  │ paired  │  95% CI   │  win rate  │\n│       │  (v1)   │    (v2)    │  ratio  │           │            │\n├───────┼─────────┼────────────┼─────────┼───────────┼────────────┤\n│ 2     │ 427,986 │    428,990 │   1.00x │ 0.89–1.09 │ 44.0–52.8% │\n├───────┼─────────┼────────────┼─────────┼───────────┼────────────┤\n│ 3     │ 643,996 │    634,826 │   0.99x │ 0.92–1.07 │ 46.6–55.4% │\n└───────┴─────────┴────────────┴─────────┴───────────┴────────────┘\n\nThe leak flipped 7.8% of decisions and changed no result: both difference intervals contain zero and the direction isn't even consistent between depths. F001's magnitude survives untouched; only its mechanism sentence needed correcting. The v1 rows stay registered and unchanged — the pair is the measurement — and I proved they still reproduce their recorded games bit-exactly (60 depth-2 games, 8 depth-3, zero mismatches).\n\nWhat the uncertainty work found beyond the leak. Every honest rung's interval excludes zero (depth 2 over flat 2.10x, 1.87–2.27; depth 3 over depth 2 1.48x, 1.37–1.65), but the fixed-horizon panel exposed something the ladder was hiding: most of the ladder's spread is survival, not scoring rate. At 256 blocks placed, depth 2 over flat is 1.23x rather than 2.10x, and the champion over heuristic-v0 is 1.66x rather than 5.56x. The ordering holds at every horizon, so the ladder isn't an artefact — but the gaps mostly say search dies later, not that it scores faster. That also gave F004 its first matched comparison: AB's 121,496 in 256 blocks sits between the two searching agents' 256-block medians, not the flat ones. Both are drafted as candidate findings rather than promoted, since the register authorisation was scoped to the three named corrections.\n\nGame v1.2 ships with the breakdown screen, a deterministic in-browser accuracy grade against the leak-free champion, the composite with its three components visible, and a daily board. Two live-verification findings the tests wouldn't have caught: grading took over forty seconds in a backgrounded tab (Chrome throttles setTimeout there — now a MessageChannel), and that fix then hung node --test because a live MessagePort keeps Node's event loop alive.\n\nThree things I'd flag for you:\n\n1. A CONTEXT tension I did not patch silently. 02_build/CONTEXT.md says no agent logic in that stage, but in-browser grading with no network forces a copy of one pinned agent into docs/js/grader.js. I recorded the decision and its rejected alternative in BUILD.md (in scope) and bound the copy with a lab test that fails on a single disagreed column across 270 positions — but left the CONTEXT line alone and raised it as a gap for your ruling.\n2. One judgement call inside the spec: the score index needed a floor as well as the cap you specified (a pure log ratio from 1 scored the human game 87/100; with a named floor at 1,000 it scores 74). Named, commented, tested — and the one constant you might reasonably want different.\n3. The --pick-number close landed clean first time, sweep verdict review-warranted purely because my four proposals pushed the unconsidered count to 8.\n\nattention: amber -- All eleven work-order items are done and verified; the leak's measured cost is nil and the honest ladder now carries intervals. Two things want your eye: the 02_build/CONTEXT.md \"no agent logic\" line now contradicts BUILD.md decision 9 (browser grader), and two candidate findings from the fixed-horizon panel are sitting unpromoted because they'd change what the write-up leads with.\n\n✻ Cogitated for 2h 14m 54s · 3 shells still running\n\n  9 tasks (8 done, 1 open)\n  ◻ Update records and close the job\n  ✔ Cut leak-free expectimax d2-v2 and d3-v2, re-run eval-v1\n  ✔ Re-run banking probe on leak-free d2\n  ✔ Bootstrap CIs, paired intervals, fixed-horizon panel\n  ✔ Amend F001, F003, F004 and the decision log\n   … +4 completed\n\n────────────────────────────────────────────────────────────────────────\n❯\n────────────────────────────────────────────────────────────────────────\n  Model: Opus 5 | Effort: xhigh | Ctx: 45%\n  main (+3261,-156) | ⚠\n  In: 454885 | Out: 1414 | Session: 10% ◓\n  ⏵⏵ bypass permissions on · 3 shells · ← 1 agent · shift+click to nat…\n"
+        },
+        {
+          "channel": "ATTACHMENT",
+          "name": "(unnamed)",
+          "note": "file supplied with the message; no text in the export",
+          "text": ""
+        }
+      ],
+      "timestamp": "2026-08-05T17:13:07.570254Z"
+    }
+  ],
+  "reasoning_coverage": {
+    "absent": 1,
+    "assistant_messages": 28,
+    "full": 8,
+    "summary-only": 19
+  },
+  "redaction": {
+    "replacements": {
+      "account-handle": 1,
+      "local-filesystem-path": 0,
+      "replay-identifier": 3,
+      "repository-url": 1
+    },
+    "rules_file": "runs/02-the-two-hour-job/sweep-rules.json",
+    "rules_sha256": "21c32fc365bbd75f087a71a6b067e907f88f4396d0c92dfe611c4efee9d1de9d"
+  },
+  "schema_version": "2",
+  "source_file": "conversations.json",
+  "source_sha256": "50ff77f77041ee062e46a72909d9139fee6f0a9b4f092f1dfae4a83e9264a575",
+  "tree": {
+    "abandoned": [],
+    "live_tip": 56,
+    "reading_order": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56
+    ],
+    "roots": [
+      1
+    ]
+  },
+  "window": {
+    "first": 42,
+    "is_full_conversation": false,
+    "last": 47
+  }
+}

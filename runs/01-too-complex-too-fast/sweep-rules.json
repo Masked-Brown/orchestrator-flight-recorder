@@ -1,0 +1,40 @@
+{
+  "_comment": [
+    "The mechanical sweep for this run's excerpts. Applied by parse.py --redact on the",
+    "way into the manifest, so the record check.py matches quotations against and the",
+    "record in this folder are the same swept record.",
+    "",
+    "The M4 intake cleared this window and named only database identifiers and revenue",
+    "figures as the hazards, both of them outside the window. Neither is in this folder.",
+    "These two rules cover a category the intake did not anticipate: the window carries",
+    "a personal name, shipped as the default value of a configuration constant, and the",
+    "platform identifier of a real channel, twice, inside a file path. This repository is",
+    "public under a pseudonymous account, so shipping those would have linked the account",
+    "to the person. Redacting them is stricter than the ruling, not looser. Neither is",
+    "cited anywhere in the report, so nothing in the finding depends on them.",
+    "",
+    "Note on how the first rule is written. A sweep rule that names its target as a",
+    "literal republishes the string it exists to remove — the rules file ships in the",
+    "same public repository as the manifest, and is just as greppable. So this rule",
+    "matches the surrounding syntax instead: the quoted default in the assignment. The",
+    "rules file therefore contains no personal name. Run 2's handle rule does spell its",
+    "target, and that is deliberate rather than inconsistent: the account handle is the",
+    "owner of this repository's own URL and is public whatever this file says, whereas",
+    "the name appears nowhere else in the repo.",
+    "",
+    "Added by the M4 recovery session, 2026-08-08. Flagged for the human's final read:",
+    "see runs/01-too-complex-too-fast/run-notes.md and the M4 handover."
+  ],
+  "rules": [
+    {
+      "name": "quoted-config-default-name",
+      "pattern": "defaulting to \"[^\"]*\"",
+      "replacement": "defaulting to \"[name]\""
+    },
+    {
+      "name": "channel-identifier",
+      "pattern": "UC[A-Za-z0-9_-]{22}",
+      "replacement": "[id]"
+    }
+  ]
+}

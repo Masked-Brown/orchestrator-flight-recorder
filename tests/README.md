@@ -1,8 +1,10 @@
 # Tests
 
-The gate is only worth having if it demonstrably catches things. Run them:
+The gate is only worth having if it demonstrably catches things, and the parser is only
+worth trusting if it gives the same answer twice. Two suites, both stdlib, both quick:
 
-    python tests/verify.py
+    python tests/verify.py        # the gate discriminates
+    python tests/parser-check.py  # the parser reads the record correctly
 
 Exit 0 means the contract holds. Exit 1 means it does not, and the output says where.
 No packages to install, and nothing here touches a real conversation export.
@@ -15,12 +17,19 @@ No packages to install, and nothing here touches a real conversation export.
   reasoning block withheld with only a summary surviving, two withheld with nothing
   surviving, and a tool call that returned an error. Invented for these tests. It is not
   a record of anything that happened.
+- **`fixtures/branched-export.json`** — a second CONSTRUCTED export, used only by
+  `parser-check.py`. Six messages in which one reply was regenerated, so the conversation
+  forks and one branch is abandoned, plus an empty conversation sharing its name. Kept
+  separate from the export above on purpose: see the note at the end of this file.
+- **`fixtures/test-sweep-rules.json`** — redaction rules for `parser-check.py`, including
+  one deliberately written to match nothing.
 - **`cases/`** — well-formed reports. Every one must pass.
 - **`negative/`** — deliberately broken reports. Every one must fail, on the check it was
   built to break.
-- **`verify.py`** — runs both directions and asserts the contract.
+- **`verify.py`** — runs both directions and asserts the gate's contract.
+- **`parser-check.py`** — asserts the parser's contract.
 
-## The contract
+## The gate's contract
 
 Three things are asserted, and the second is the one that matters.
 
@@ -41,6 +50,34 @@ check that mutation should trip. That is what makes this evidence rather than de
 can report and fails if any of them has no negative fixture. Without this a check could be
 added, never exercised, and quietly do nothing while looking like enforcement.
 
+## The parser's contract
+
+`verify.py` runs `parse.py` on the way to everything it does, but it only ever asks
+whether the resulting manifest lets a report pass or fail. Four properties are invisible
+from there and all four are load-bearing, so `parser-check.py` asserts them directly:
+
+**The tree.** The export is a flat array in which every message names its parent. When a
+reply is regenerated, both versions sit in that array, and read as a list the abandoned
+one appears between two live turns as though it were part of the conversation. The test
+asserts the manifest says which branch the conversation actually continued down, which
+message is abandoned, and where a reply attaches when it is not to the message above it.
+
+**Every channel is read.** Speech, reasoning, withheld reasoning that left only a summary,
+tool calls, tool output and attachment text each get an assertion, because a recorder that
+silently drops a channel is worse than one that never had it. Including the small one that
+bit: a tool call whose *path* is missing from the record tells you a file was written but
+not which file.
+
+**The sweep is counted.** Redaction is what makes shipping a real excerpt safe. The test
+checks that the sensitive strings are gone, that the replacement markers are there, that
+the counts are right, and that a rule matching nothing still reports itself as zero —
+because a sweep that quietly matched nothing looks identical to one that worked.
+
+**Determinism, and whose machine it ran on.** Same export, same manifest, byte for byte.
+And the manifest records the export's *name*, never the path it was read from, so parsing
+`/home/someone/Downloads/conversations.json` cannot put a real person's directory layout
+into a file written to be published.
+
 ## The manifests are built, not stored
 
 `verify.py` runs `parse.py` over the synthetic export to produce the manifests the reports
@@ -55,3 +92,7 @@ is handed. So **editing `fixtures/synthetic-export.json` by even one byte will f
 test** on `record-pairing` until the new fingerprint is written into each report. That is
 the check doing its job. `.gitattributes` keeps the file's bytes identical across
 platforms, which is why the suite also runs on Windows in CI.
+
+That is also why `parser-check.py` has a fixture of its own rather than adding a fork to
+the export above. A parser test needs to change its input to test anything, and every
+change to that file costs twenty-four report edits. Two fixtures is the cheaper answer.

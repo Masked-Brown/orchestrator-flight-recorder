@@ -1,0 +1,32 @@
+{
+  "_comment": [
+    "The mechanical sweep for this run's excerpts, per the M4 intake's sensitivity",
+    "ruling. Applied by parse.py --redact on the way into the manifest, so the record",
+    "the investigator read, the record check.py matched quotations against, and the",
+    "record in this folder are all the same swept record.",
+    "Rules are applied in order and matched case-insensitively. The URL rule runs",
+    "before the bare-handle rule so a full URL is replaced once, not twice."
+  ],
+  "rules": [
+    {
+      "name": "local-filesystem-path",
+      "pattern": "[A-Za-z]:\\\\+Users\\\\+[^\\s\"'`,;)\\]]*",
+      "replacement": "[path]"
+    },
+    {
+      "name": "repository-url",
+      "pattern": "(?:https?://)?(?:www\\.)?github\\.com/[^\\s\"'`,;)\\]]*",
+      "replacement": "[url]"
+    },
+    {
+      "name": "account-handle",
+      "pattern": "Masked-Brown",
+      "replacement": "[account]"
+    },
+    {
+      "name": "replay-identifier",
+      "pattern": "nbs-replay-\\d+",
+      "replacement": "[id]"
+    }
+  ]
+}

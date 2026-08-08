@@ -197,6 +197,19 @@ Two rules:
   often exactly where a rule that outlived its situation is hiding. You may not count it as a
   turn, treat it as a correction, or read a change of mood into it.
 
+Two tells worth knowing, because both have caught a careful reader out:
+
+**It repeats, word for word.** A standing block is pasted, so it appears with identical wording
+at the head of message after message, and across sessions that have nothing else in common. One
+sentence of it read as a live turn is a misreading; the same sentence counted once per session
+is a pattern that was never there. If a phrase looks like a correction and you can find it
+verbatim somewhere it could not possibly be answering anything, it is standing material.
+
+**A block can be under construction rather than in force.** When one party is drafting the
+opening prompt for some *other* session, that draft contains a register block in full, quoted
+inside an ordinary message. It is not an instruction operating on the session you are reading,
+and it is not a turn in it either. It is a party writing a document. Read it as one.
+
 ## 5. Surface first, then walk back
 
 The **failure surface** is where the problem became visible. The **causal origin** is where the
